@@ -76,6 +76,8 @@ standalone: node_modules
 	mkdir -p $(BUILT)/$@/content/shared
 	$(RSYNC) shared $(BUILT)/$@/content
 	$(BABEL) shared --out-dir $(BUILT)/$@/content/shared
+	mkdir -p $(BUILT)/$@/content/l10n/en-US
+	cat locale/en-US/$@.properties locale/en-US/shared.properties > $(BUILT)/$@/content/l10n/en-US/loop.properties
 
 .PHONY: add-on
 add-on: node_modules
@@ -96,6 +98,8 @@ add-on: node_modules
 	$(RSYNC) shared $(BUILT)/$@/chrome/content
 	$(BABEL) shared --out-dir $(BUILT)/$@/chrome/content/shared
 	$(RSYNC) $@/chrome/skin $(BUILT)/$@/chrome/
+	mkdir -p $(BUILT)/$@/chrome/locale/en-US
+	cat locale/en-US/$@.properties locale/en-US/shared.properties > $(BUILT)/$@/chrome/locale/en-US/loop.properties
 
 #
 # Tests
