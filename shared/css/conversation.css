@@ -364,11 +364,59 @@ html[dir="rtl"] .settings-menu.dropdown-menu {
 /*
  * For any audio-only streams, we want to display our own background
  */
+.avatar-container {
+  width:  100%;
+  height: 100%;
+  background-color: #d8d8d8;
+  overflow: hidden;
+}
+
+.media-wrapper > .remote > .avatar-container {
+  background-color: #00a9dc;
+}
+
+.avatar-volume {
+  border-radius: 50%;
+  background-color: #e8e8e8;
+  position: relative;
+  /* Default size */
+  height: 146px;
+  width: 146px;
+  transform: translate(-50%, -50%);
+  top: 50%;
+  left: 50%;
+}
+
+/* Set avatar sizes by media-wrapper selectors */
+.media-wrapper > .remote .avatar-volume {
+  background-color: #78d2ee;
+}
+
+.media-wrapper .local .avatar-volume {
+  background-color: #e8e8e8;
+}
+
+.media-wrapper:not(.receiving-screen-share) > .remote .avatar-volume,
+.media-wrapper:not(.showing-remote-streams) > .focus-stream > .local
+{
+  height: 146px;
+  width: 146px;
+}
+
+.media-wrapper:not(.showing-remote-streams) > .focus-stream > .local .avatar-container {
+  border: none;
+}
+
+.media-wrapper:not(.receiving-screen-share) .local .avatar {
+  background-image: url("../img/local-avatar-thumb.svg");
+}
+
 .avatar {
-  background-image: url("../img/audio-call-avatar.svg");
+  background-image: url("../img/local-avatar-thumb.svg");
   background-repeat: no-repeat;
-  background-color: #4BA6E7;
-  background-size: contain;
+  background-color: none;
+
+  background-size: 94%;
   background-position: center;
 
   /*
@@ -377,6 +425,10 @@ html[dir="rtl"] .settings-menu.dropdown-menu {
    */
   height: 100%;
   width: 100%;
+}
+
+.media-wrapper > .remote .avatar {
+  background-image: url("../img/guest-avatar-thumb.svg");
 }
 
 /*
@@ -416,6 +468,8 @@ html[dir="rtl"] .settings-menu.dropdown-menu {
 .remote > .avatar {
   /* make visually distinct from local avatar */
   opacity: 0.25;
+  background-image: url("../img/local-avatar-thumb.svg");
+  background-color: none;
 }
 
 /* Force full height on all parents up to the video elements
@@ -538,8 +592,14 @@ body[platform="win"] .share-service-dropdown.overflow > .dropdown-menu-item {
   height: 150px;
 }
 
+.media-wrapper > .local .avatar-volume,
+.media-wrapper > .remote .avatar-volume{
+  width: 106px;
+  height: 106px;
+}
+
 .media-wrapper > .local .local-video,
-.media-wrapper > .focus-stream > .local .local-video {
+.media-wrapper > .remote.focus-stream > .local .local-video {
   width: 100%;
   height: 100%;
   /* Transform is to make the local video act like a mirror, as is the
@@ -607,6 +667,12 @@ body[platform="win"] .share-service-dropdown.overflow > .dropdown-menu-item {
   height: 150px;
 }
 
+.media-wrapper.receiving-screen-share > .remote .avatar-volume {
+  background-color: #78d2ee;
+  width: 106px;
+  height: 106px;
+}
+
 .media-wrapper.receiving-screen-share > .local {
   order: 4;
 }
@@ -643,7 +709,37 @@ body[platform="win"] .share-service-dropdown.overflow > .dropdown-menu-item {
     left: auto;
     bottom: 0;
     width: 120px;
+  }
+
+  .media-wrapper:not(.showing-remote-streams) > .focus-stream > .local {
+    position: relative;
+    margin: 0;
+    bottom: auto;
+    width: 100%;
+    height: 100%;
+  }
+
+  .media-wrapper:not(.receiving-screen-share) > .focus-stream > .local > .avatar-volume {
+    height: 146px;
+    width: 146px;
+  }
+
+  .media-wrapper > .remote.focus-stream > .local .avatar-container {
+    border: 2px solid rgb(230, 230, 230);
+    border: 2px solid rgba(255, 255, 255, .9);
+    -webkit-background-clip: padding-box; /* for Safari */
+    background-clip: padding-box; /* for IE9+, Firefox 4+, Opera, Chrome */
     height: 120px;
+  }
+
+  .media-wrapper.showing-remote-streams > .remote.focus-stream > .local .avatar-volume {
+    height: 106px;
+    width: 106px;
+  }
+
+  .media-wrapper:not(.showing-remote-streams) > .remote.focus-stream > .local .avatar-container {
+    border: none;
+    height: 100%;
   }
 
   html[dir="rtl"] .media-wrapper > .focus-stream > .local {
@@ -747,6 +843,24 @@ body[platform="win"] .share-service-dropdown.overflow > .dropdown-menu-item {
        video not too big */
     width: 25%;
     height: 25%;
+    border: none;
+  }
+
+  .media-wrapper.showing-remote-streams > .focus-stream > .local {
+    height: auto;
+  }
+
+  .media-wrapper.showing-remote-streams > .remote.focus-stream > .local .avatar-volume {
+    width: 46px;
+    height: 46px;
+  }
+
+  .media-wrapper > .remote.focus-stream > .local .avatar-container {
+    border: 2px solid rgb(230, 230, 230);
+    border: 2px solid rgba(255, 255, 255, .9);
+    -webkit-background-clip: padding-box; /* for Safari */
+    background-clip: padding-box; /* for IE9+, Firefox 4+, Opera, Chrome */
+    height: 66px;
   }
 
   html[dir="rtl"] .media-wrapper > .focus-stream > .local {
@@ -762,14 +876,9 @@ body[platform="win"] .share-service-dropdown.overflow > .dropdown-menu-item {
     display: none;
   }
 
-  .media-wrapper:not(.showing-remote-streams) > .focus-stream > .local {
-    position: relative;
-    margin: 0;
-    right: auto;
-    left: auto;
-    bottom: auto;
-    width: 100%;
-    height: 100%;
+  .media-wrapper:not(.showing-remote-streams) > .focus-stream > .local .avatar-volume {
+    height: 230px;
+    width: 230px;
   }
 
   .media-wrapper:not(.showing-remote-streams) > .focus-stream > .local ~ .conversation-toolbar {
@@ -780,6 +889,15 @@ body[platform="win"] .share-service-dropdown.overflow > .dropdown-menu-item {
     flex: 1 1 auto;
     /* To keep the aspect ratio of video. Update accordingly with chatbox[customSize] width */
     height: 263px;
+  }
+
+  .media-wrapper > .focus-stream > .local .avatar-volume {
+    height: 46px;
+    width: 46px;
+  }
+
+  .media-wrapper > .remote.focus-stream  > .local .avatar {
+    background-image: url("../img/local-avatar-thumb.svg");
   }
 
   .media-wrapper > .text-chat-view {

@@ -258,6 +258,14 @@
     })
   });
 
+  var invitationMuteRoomStore = new loop.store.RoomStore(dispatcher, {
+    constants: {},
+    activeRoomStore: makeActiveRoomStore({
+      roomState: ROOM_STATES.INIT,
+      videoMuted: true
+    })
+  });
+
   var roomStore = new loop.store.RoomStore(dispatcher, {
     constants: {},
     activeRoomStore: makeActiveRoomStore({
@@ -306,6 +314,18 @@
   var desktopRemoteFaceMuteRoomStore = new loop.store.RoomStore(dispatcher, {
     constants: {},
     activeRoomStore: desktopRemoteFaceMuteActiveRoomStore
+  });
+
+  var desktopLocalRemoteFaceMuteActiveRoomStore = makeActiveRoomStore({
+    roomState: ROOM_STATES.HAS_PARTICIPANTS,
+    remoteVideoEnabled: false,
+    mediaConnected: true,
+    videoMuted: true
+  });
+
+  var desktopLocalRemoteFaceMuteRoomStore = new loop.store.RoomStore(dispatcher, {
+    constants: {},
+    activeRoomStore: desktopLocalRemoteFaceMuteActiveRoomStore
   });
 
   var textChatStore = new loop.store.TextChatStore(dispatcher, {
@@ -892,7 +912,7 @@
           <Section name="DesktopRoomConversationView">
             <FramedExample height={448}
               onContentsRendered={invitationRoomStore.activeRoomStore.forcedUpdate}
-              summary="Desktop room conversation (invitation, text-chat inclusion/scrollbars don't happen in real client)"
+              summary="Desktop room conversation (invitation text-chat inclusion/scrollbars do not happen in real client)"
               width={348}>
               <div className="fx-embedded">
                 <DesktopRoomConversationView
@@ -905,6 +925,23 @@
                   roomStore={invitationRoomStore} />
               </div>
             </FramedExample>
+
+            <FramedExample height={448}
+                           onContentsRendered={invitationMuteRoomStore.activeRoomStore.forcedUpdate}
+                           summary="Desktop room conversation with Video Mute (invitation text-chat inclusion/scrollbars do not happen in real client)"
+                           width={348}>
+              <div className="fx-embedded">
+                <DesktopRoomConversationView
+                  chatWindowDetached={false}
+                  dispatcher={dispatcher}
+                  facebookEnabled={true}
+                  localPosterUrl="sample-img/video-screen-local.png"
+                  onCallTerminated={function() {}}
+                  roomState={ROOM_STATES.INIT}
+                  roomStore={invitationMuteRoomStore} />
+              </div>
+            </FramedExample>
+
 
             <FramedExample dashed={true}
                            height={448}
@@ -959,6 +996,41 @@
                   remotePosterUrl="sample-img/video-screen-remote.png"
                   roomState={ROOM_STATES.HAS_PARTICIPANTS}
                   roomStore={desktopRoomStoreMedium} />
+              </div>
+            </FramedExample>
+
+            <FramedExample dashed={true}
+                           height={482}
+                           onContentsRendered={invitationMuteRoomStore.activeRoomStore.forcedUpdate}
+                           summary="Desktop Invitation View (medium)"
+                           width={602}>
+              <div className="fx-embedded">
+                <DesktopRoomConversationView
+                  chatWindowDetached={false}
+                  dispatcher={dispatcher}
+                  facebookEnabled={true}
+                  localPosterUrl="sample-img/video-screen-local.png"
+                  onCallTerminated={function() {}}
+                  roomStore={invitationMuteRoomStore}
+                />
+              </div>
+            </FramedExample>
+
+            <FramedExample dashed={true}
+                           height={482}
+                           onContentsRendered={desktopLocalRemoteFaceMuteRoomStore.activeRoomStore.forcedUpdate}
+                           summary="Desktop room conversation local and remote face-mute (medium)"
+                           width={602}>
+              <div className="fx-embedded">
+                <DesktopRoomConversationView
+                  chatWindowDetached={false}
+                  dispatcher={dispatcher}
+                  facebookEnabled={true}
+                  localPosterUrl="sample-img/video-screen-local.png"
+                  onCallTerminated={function() {}}
+                  remotePosterUrl="sample-img/video-screen-remote.png"
+                  roomState={ROOM_STATES.HAS_PARTICIPANTS}
+                  roomStore={desktopLocalRemoteFaceMuteRoomStore} />
               </div>
             </FramedExample>
 

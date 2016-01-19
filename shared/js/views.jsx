@@ -484,7 +484,13 @@ loop.shared.views = (function(_, mozL10n) {
     mixins: [React.addons.PureRenderMixin],
 
     render: function() {
-        return <div className="avatar"/>;
+        return (
+        <div className="avatar-container">
+          <div className="avatar-volume">
+            <div className="avatar"/>
+          </div>
+        </div>
+        );
     }
   });
 
