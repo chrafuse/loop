@@ -338,9 +338,9 @@ describe("loop.shared.utils", function() {
         switch (id) {
           case "share_email_subject7":
             return "subject";
-          case "share_email_body7":
+          case "share_email_body8":
             return "body";
-          case "share_email_body_context3":
+          case "share_email_body_context4":
             return "body_context";
           case "share_email_footer2":
             return "footer";

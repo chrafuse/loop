@@ -390,7 +390,7 @@ loop.store = loop.store || {};
       switch (providerOrigin) {
         case "mail.google.com":
           shareTitle = mozL10n.get("share_email_subject7");
-          shareBody = mozL10n.get("share_email_body7", {
+          shareBody = mozL10n.get("share_email_body8", {
             callUrl: actionData.roomUrl
           });
           shareBody += mozL10n.get("share_email_footer2");

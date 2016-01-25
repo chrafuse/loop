@@ -418,13 +418,13 @@ var inChrome = typeof Components != "undefined" && "utils" in Components;
     var footer = mozL10n.get("share_email_footer2");
     if (contextDescription) {
       subject = mozL10n.get("share_email_subject7");
-      body = mozL10n.get("share_email_body_context3", {
+      body = mozL10n.get("share_email_body_context4", {
         callUrl: callUrl,
         title: contextDescription
       });
     } else {
       subject = mozL10n.get("share_email_subject7");
-      body = mozL10n.get("share_email_body7", {
+      body = mozL10n.get("share_email_body8", {
         callUrl: callUrl
       });
     }
