@@ -17,7 +17,7 @@
     "backbone": "1.2.1",
     "classnames": "2.2.0",
     "lodash": "3.9.3",
-    "react": "0.13.3"
+    "react": "0.14.7"
   },
   "devDependencies": {
     "babel-cli": "6.4.5",
