@@ -132,14 +132,99 @@ or visit `http://localhost:3000/ui/` direct.
 
 xpcshell and mochitest
 ----------------------
-
 These are tests for the [chrome](https://developer.mozilla.org/docs/Glossary/Chrome)
 modules and files.
 
-Currently these are not runnable in the github repository, and an export to
-mozilla-central is required. We are
-[working on improving](https://bugzilla.mozilla.org/show_bug.cgi?id=1238570) this
-situation.
+**Test Export to Mozilla Central**
+
+The gecko-dev repo is cloned locally and is used as the xpcshell and 
+mochitest test build. See [the simple Firefox build instructions]
+(https://developer.mozilla.org/docs/Mozilla/Developer_guide/Build_Instructions/Simple_Firefox_build) 
+for setting up a repository for a Firefox build. There is also a 
+[git-cinnibar](https://github.com/glandium/git-cinnabar) wrapper to allow using git for the repository.
+
+
+**Resetting gecko-dev repo for pull and export**
+
+If gecko-dev has already been cloned and was used for a previous export and build,
+you can reset the repo:
+```shell
+gecko-dev$ git checkout fx-team
+gecko-dev$ git reset --hard HEAD
+gecko-dev$ git clean -f
+gecko-dev$ git status
+``` 
+
+```shell
+gecko-dev$ hg pull
+gecko-dev$ hg purge .
+gecko-dev$ hg update -r default
+``` 
+
+Once reset, you should not see gecko-dev/browser/extensions/loop/ directory or files.
+You can now pull fx-team latest.
+```shell
+gecko-dev$ git pull
+```  
+
+```shell
+gecko-dev$ hg pull
+```  
+
+**Git export from loop repo**
+
+You can export from any branch of the repository, but it is generally advised 
+for it to be based on latest master for running tests.
+
+You can set your default export_mc location by setting the environment variable 
+EXPORT_MC_LOCATION to the location of your repository
+
+```shell
+loop$ make export_mc
+```
+
+Run status to show the add-on extension directory and files now appear in the gecko-dev repo.
+
+**Building gecko-dev**
+
+It will take some time to build.
+```shell
+gecko-dev$ ./mach build
+``` 
+
+**Running Tests**
+
+To run all the tests for both XPCShell and Mochitest 
+```shell
+gecko-dev$ ./mach test browser/extensions/loop/chrome/test
+```
+You can run all tests for XPCShell, Mochitest and specific tests.
+```shell
+gecko-dev$ ./mach test browser/extensions/loop/chrome/test/xpcshell/
+gecko-dev$ ./mach test browser/extensions/loop/chrome/test/xpcshell/loopservice_locales.js
+gecko-dev$ ./mach test browser/extensions/loop/chrome/test/mochitest/
+gecko-dev$ ./mach test browser/extensions/loop/chrome/test/mochitest/browser_toolbarbutton.js
+```
+
+**Updating gecko-dev on code changes**
+
+To update gecko-dev tests from loop you must export_mc again after changes have been made.
+```shell
+loop$ make export_mc
+```
+If browser.ini for mochitest changes you must run this in gecko-dev then you can run tests:
+```shell
+gecko-dev$ ./mach build browser/extensions/loop
+```
+
+**Run all tests relevant to Loop**
+
+If you are doing big changes, you might want to run all tests that are known 
+that could be broken by Loop. To do that, run this command:
+
+```shell
+gecko-dev$ sh ./browser/extensions/loop/run-all-loop-tests.sh 
+```
 
 Functional Tests
 ----------------
