@@ -494,7 +494,7 @@ flake8: $(VENV)
 
 .PHONY: check_strings
 check_strings:
-	$(VENV)/bin/python bin/stringsCompletenessTest.py
+	@$(VENV)/bin/python bin/stringsCompletenessTest.py
 
 .PHONY: lint
 lint: eslint flake8
