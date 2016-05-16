@@ -29,16 +29,6 @@ import sys
 DEFAULT_PROPERTY_LOCALE = "en-US"
 
 
-def main(l10n_locale):
-    l10n_properties = read_strings_from_l10n(os.path.join("locale", l10n_locale))
-
-    not_found_string_list = {}
-    check_strings_in_code(l10n_properties, not_found_string_list)
-
-    if report_result(l10n_properties, not_found_string_list) > 0:
-        sys.exit(1)
-
-
 def read_strings_from_l10n(l10n_dir, **arglist):
     # We use encoding="UTF-8" so that we have a known consistent encoding format.
     # Sometimes the locale isn't always defined correctly for python, so we try
@@ -101,6 +91,10 @@ def find_l10n_strings(file_path, l10n_properties, not_found_string_list):
                         not_found_string_list[code_key] = 1
 
 
+def multiple_file_types(code_dir, *patterns):
+    return it.chain.from_iterable(glob.glob("%s/%s" % (code_dir, pattern)) for pattern in patterns)
+
+
 def check_strings_in_code(l10n_properties, not_found_string_list, **list):
     props_found = 0
 
@@ -154,8 +148,15 @@ def report_result(l10n_properties, not_found_string_list, **arglist):
     return used_strings_not_found
 
 
-def multiple_file_types(code_dir, *patterns):
-    return it.chain.from_iterable(glob.glob("%s/%s" % (code_dir, pattern)) for pattern in patterns)
+def main(l10n_locale):
+    l10n_properties = read_strings_from_l10n(os.path.join("locale", l10n_locale))
+
+    not_found_string_list = {}
+    check_strings_in_code(l10n_properties, not_found_string_list)
+
+    if report_result(l10n_properties, not_found_string_list) > 0:
+        sys.exit(1)
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
