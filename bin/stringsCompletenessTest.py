@@ -1,19 +1,15 @@
 #!/usr/bin/python
 
 ##
-# This script is designed to validate string usage code completeness in the l10n property files and for
-# the standalone loop client and loop add-on executable code.
+# This script is designed to validate string usage code completeness in the
+# l10n property files.
 #
 # Run this script from the local version of loop. It assumes that a local
-# version is in directory: ./loop/bin.
+# version is in directory: ./bin.
 ##
 
-# TODO - find all missing strings task and print out line
-# further searches and tests for larger insight into string use cases and actual unused strings
-# gather other useful information
-# get list of = "literal strings in the code";
-# Iterate back over code with patterns from not found
-# or unused strings to find literal strings used and where (line).
+# TODO
+# further searches for finding more real string uses in code.
 ##
 
 from __future__ import print_function
