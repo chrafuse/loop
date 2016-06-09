@@ -308,15 +308,15 @@ loop.shared.toc = (function(mozL10n) {
           <div className="room-user" data-name="Pau Masiá">
             <span>{'P'}</span>
           </div>
-          <img className="tile-screenshot" src="" />
+          <img className="tile-screenshot" src={this.props.tile.thumbnail_img} />
           <div className="tile-info">
             <a
               className="tile-name"
               href={this.props.tile.location}
               rel="noopener noreferrer"
               target="_blank"
-              title={this.props.tile.description}>
-                {this.props.tile.description}
+              title={this.props.tile.title}>
+                {this.props.tile.title}
             </a>
             <h3 className="tile-url">{this.props.tile.location}</h3>
           </div>

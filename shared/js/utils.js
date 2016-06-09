@@ -815,23 +815,34 @@ const API_KEY = "b0bbaba8774f4134b503644bfac12acd";
   }
 
   function getPageMetadata(url) {
+    console.log("url", url);
     return new Promise((resolve, reject) => {
       let result = { url };
       let request = new XMLHttpRequest();
       request.open("GET",
-        `https://api.embedly.com/1/extract?url=${encodeURIComponent(url)}&key=${encodeURIComponent(API_KEY)}`);
+        "https://www.googleapis.com/pagespeedonline/v1/runPagespeed?screenshot=true&strategy=desktop&url=" + encodeURIComponent(url));  // &key=${encodeURIComponent(API_KEY)}
       request.onload = () => {
+        console.log("request: ", request);
         if (request.status !== 200) {
           reject(request);
           return;
         }
-
-        let extracted = JSON.parse(request.responseText);
-        result.url = extracted.provider_url;
-        result.description = extracted.description;
+        let extracted = JSON.parse(request.response);
+        result.url = extracted.id;
+        // result.description = extracted.description;   //does not exist in response
         result.title = extracted.title;
-        result.images = extracted.images;
-        result.favicon_url = extracted.favicon_url;
+        // result.images = extracted.images;
+        // result.favicon_url = extracted.favicon_url;
+
+        var screenshot = extracted.screenshot;
+        console.log("screenshot: ", screenshot);
+        var src = "data:" + screenshot.mime_type + ";base64,";
+        var base64 = screenshot.data;
+        base64 = base64.replace(/\_/g, "/");
+        base64 = base64.replace(/\-/g, "+");
+        src += base64;
+        result.thumbnail_img = src;
+        console.log("result: ", result);
         resolve(result);
       };
 
